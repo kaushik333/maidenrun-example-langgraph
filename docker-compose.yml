@@ -1,0 +1,12 @@
+services:
+  agent:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    # Local runs read keys from .env. On AgentDock there is no .env (it's
+    # gitignored) — the platform injects OPENROUTER_API_KEY etc. itself, so
+    # no environment: block is declared here on purpose.
+    env_file:
+      - path: .env
+        required: false

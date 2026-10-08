@@ -3,11 +3,13 @@
 A minimal LangGraph research agent. Given a topic, it plans a few search
 queries, runs them against the web, and synthesizes a cited markdown report.
 
-It exists as a **test fixture** for [agent-feedback-deploy](../agent-feedback-deploy),
+It exists as a **test fixture** for [agentdock](../agentdock),
 the BYOC agent-deploy-and-feedback platform described in
 [IDEA.md](../IDEA.md). It is deliberately simple and already conforms to
-that platform's entry-point contract: a single root `Dockerfile`, agent UI
-on host port 8001, and an LLM API key read from a fixed env var name.
+that platform's entry-point contract: a single root `docker-compose.yml`,
+agent UI on host port 8001, and an LLM API key read from a fixed env var
+name — deliberately not declared in the compose file, since AgentDock
+injects it.
 
 ## Installation
 
@@ -15,7 +17,7 @@ Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 cp .env.example .env
-# edit .env: set OPENAI_API_KEY (or ANTHROPIC_API_KEY / AZURE_OPENAI_*)
+# edit .env: set OPENROUTER_API_KEY (or OPENAI_API_KEY / ANTHROPIC_API_KEY / AZURE_OPENAI_*)
 uv sync
 uv run python app.py
 ```
@@ -25,8 +27,7 @@ Open http://localhost:8001.
 ### Docker
 
 ```bash
-docker build -t research-agent .
-docker run -p 8001:8001 --env-file .env research-agent
+docker compose up --build
 ```
 
 ### Tests
@@ -52,6 +53,7 @@ research-agent/
 │   └── graph.py                  # the plan -> search -> synthesize graph
 ├── tests/                      # offline unit tests (mocked LLM + search)
 ├── feedback-questions.yaml      # sample custom questionnaire for the platform's :8002 form
+├── docker-compose.yml       # entry point: builds the Dockerfile, serves :8001
 ├── Dockerfile
 ├── pyproject.toml
 └── .env.example
@@ -100,8 +102,9 @@ grounded only in what was found. Nodes are plain closures over a
 per-run logger, so the graph has no hidden global state.
 
 **`agent/llm.py`** — provider selection follows the platform's fixed
-dropdown-to-env-var convention: `ANTHROPIC_API_KEY` → Claude,
-`OPENAI_API_KEY` → GPT, `AZURE_OPENAI_API_KEY` → Azure OpenAI. Exactly one
+dropdown-to-env-var convention: `OPENROUTER_API_KEY` → any OpenRouter model
+(`OPENROUTER_MODEL`), `ANTHROPIC_API_KEY` → Claude, `OPENAI_API_KEY` → GPT,
+`AZURE_OPENAI_API_KEY` → Azure OpenAI. Exactly one
 is expected to be set; if none are, it fails with a clear error rather than
 guessing.
 

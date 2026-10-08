@@ -1,7 +1,7 @@
 [project]
 name = "research-agent"
 version = "0.1.0"
-description = "Minimal LangGraph research agent used as a test fixture for the Agent Feedback Deploy platform"
+description = "Minimal LangGraph research agent used as a test fixture for the AgentDock platform"
 requires-python = ">=3.12"
 dependencies = [
     "langgraph>=0.2",

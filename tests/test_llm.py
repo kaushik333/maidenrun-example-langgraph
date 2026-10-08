@@ -6,12 +6,13 @@ from agent.config import settings
 
 @pytest.fixture(autouse=True)
 def clear_provider_keys():
-    original = (settings.openai_api_key, settings.anthropic_api_key, settings.azure_openai_api_key)
-    settings.openai_api_key = ""
-    settings.anthropic_api_key = ""
-    settings.azure_openai_api_key = ""
+    keys = ("openrouter_api_key", "openai_api_key", "anthropic_api_key", "azure_openai_api_key")
+    original = {k: getattr(settings, k) for k in keys}
+    for k in keys:
+        setattr(settings, k, "")
     yield
-    settings.openai_api_key, settings.anthropic_api_key, settings.azure_openai_api_key = original
+    for k, v in original.items():
+        setattr(settings, k, v)
 
 
 def test_no_provider_configured_raises():
@@ -30,3 +31,12 @@ def test_anthropic_key_takes_precedence_over_openai():
     settings.anthropic_api_key = "anthropic-test"
     model = llm.get_llm()
     assert type(model).__name__ == "ChatAnthropic"
+
+
+def test_openrouter_key_selects_chat_openai_pointed_at_openrouter():
+    settings.openrouter_api_key = "sk-or-test"
+    settings.anthropic_api_key = "anthropic-test"
+    model = llm.get_llm()
+    assert type(model).__name__ == "ChatOpenAI"
+    assert model.openai_api_base == settings.openrouter_base_url
+    assert model.model_name == settings.openrouter_model

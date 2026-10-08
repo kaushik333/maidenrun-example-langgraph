@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
 
     # LLM provider (fixed env var convention, see IDEA.md)
+    openrouter_api_key: str = ""
+    openrouter_model: str = "openai/gpt-4o-mini"
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
     anthropic_api_key: str = ""
