@@ -4,12 +4,9 @@ from agent.config import settings
 
 
 def get_llm(temperature: float = 0.3) -> BaseChatModel:
-    """Picks a provider from whichever API key env var is set.
-
-    Mirrors the platform's fixed dropdown-to-env-var convention (IDEA.md):
-    exactly one of OPENROUTER_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY /
-    AZURE_OPENAI_API_KEY is expected to be present at deploy time.
-    """
+    """Picks a provider from whichever API key env var is set. Exactly one of
+    OPENROUTER_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY / AZURE_OPENAI_API_KEY
+    is expected."""
     if settings.openrouter_api_key:
         from langchain_openai import ChatOpenAI
 

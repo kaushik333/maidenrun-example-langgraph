@@ -15,8 +15,8 @@ def _duckduckgo_text(query: str) -> list[dict]:
 def search(query: str, logger: logging.Logger) -> list[dict]:
     """Web search, normalized to [{title, url, snippet}, ...].
 
-    Uses Tavily when TAVILY_API_KEY is set (an "Additional environment
-    variable" per IDEA.md); otherwise falls back to DuckDuckGo, which needs
+    Uses Tavily when TAVILY_API_KEY is set (through MaidenRun's "Additional
+    environment variables"); otherwise falls back to DuckDuckGo, which needs
     no key so the agent works out of the box.
     """
     if settings.tavily_api_key:

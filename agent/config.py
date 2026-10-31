@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     user_id: str = "local"
     log_level: str = "INFO"
 
-    # LLM provider (fixed env var convention, see IDEA.md)
+    # LLM provider: whichever key is set picks the provider (see agent/llm.py)
     openrouter_api_key: str = ""
     openrouter_model: str = "openai/gpt-4o-mini"
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     # optional web search provider
     tavily_api_key: str = ""
 
-    # reserved by the platform (see IDEA.md) — the agent UI must serve here
+    # MaidenRun serves the agent UI from this port
     app_port: int = 8001
 
 

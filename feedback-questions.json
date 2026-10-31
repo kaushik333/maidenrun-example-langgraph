@@ -1,0 +1,8 @@
+{
+  "questions": [
+    {"question": "Did the agent understand your research topic correctly?", "answer": "", "options": ["Yes", "Partially", "No"], "optional": false},
+    {"question": "How would you rate the accuracy of the report?", "answer": "", "options": ["1", "2", "3", "4", "5"], "optional": false},
+    {"question": "Were the cited sources relevant to the topic?", "answer": "", "options": ["Yes", "Partially", "No"], "optional": false},
+    {"question": "Anything to add?", "answer": "", "optional": true}
+  ]
+}

@@ -25,7 +25,7 @@ demo = gr.Interface(
     fn=run_research,
     inputs=gr.Textbox(label="Research topic", placeholder="e.g. carbon capture startups in 2025"),
     outputs=gr.Markdown(label="Report"),
-    title="Research Agent v2",
+    title="Research Agent",
     flagging_mode="never",
 )
 
